@@ -25,6 +25,16 @@ proguard/
 # Log Files
 *.log
 
+#idea files
+*.idea/
+*.iml
+
+#eclipse
+.settings/
+.metadata
+.project
+.classpath
+
 # =========================
 # Operating System Files
 # =========================
@@ -35,6 +45,9 @@ proguard/
 .DS_Store
 .AppleDouble
 .LSOverride
+
+# Icon must end with two \r
+Icon
 
 # Thumbnails
 ._*
@@ -68,6 +81,3 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
-
-# Windows shortcuts
-*.lnk

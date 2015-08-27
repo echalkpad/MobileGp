@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MobileGp</string>
+
+    <string name="bluetooth_not_available">蓝牙设备不可用</string>
+    <string name="print">打印</string>
+    <string name="not_connected">尚未连接任何设备</string>
+    <string name="read_card">读卡</string>
+</resources>
