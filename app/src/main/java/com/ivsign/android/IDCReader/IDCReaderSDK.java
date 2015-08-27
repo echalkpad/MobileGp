@@ -6,21 +6,20 @@ public class IDCReaderSDK {
 	
 	private static final String TAG = "unpack";
 
-	public IDCReaderSDK()
-	{
+	public IDCReaderSDK() {
 		//if( 0==wltInit("") )
         	//Log.i(TAG,  "wltInit success");
 	}
-	public static int Init()
-	{
+
+	public static int Init() {
 		return wltInit(Environment.getExternalStorageDirectory() + "/wltlib");
 	}
-	public static int unpack(byte[] wltdata, byte[] licdata)
-	{
+
+	public static int unpack(byte[] wltdata, byte[] licdata) {
 		return wltGetBMP(wltdata, licdata);
 	}
 
-	// native functin interface
+	// native function interface
     public static native int wltInit(String workPath);
     
     public static native int wltGetBMP(byte[] wltdata, byte[] licdata);

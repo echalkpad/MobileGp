@@ -72,6 +72,8 @@ public class PrinterActivity extends BTActivity {
 
     @Override
     public void onDeviceConnectionFailed() {
-        Toast.makeText(this, "连接失败", Toast.LENGTH_SHORT).show();
+        if (!isFinishing()) {
+            Toast.makeText(this, "连接失败", Toast.LENGTH_SHORT).show();
+        }
     }
 }

@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.ivsign.android.IDCReader.IDCReaderSDK;
 import com.yuwell.mobilegp.R;
 import com.yuwell.mobilegp.bluetooth.OnDataRead;
+import com.yuwell.mobilegp.common.utils.FileManager;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -46,7 +47,7 @@ public class IDCardActivity extends BTActivity implements OnDataRead {
     private TextView mValidPeriod;
     private ImageView image;
 
-    private int Readflage = -99;
+    private int readFlag = -99;
     private String[] decodeInfo = new String[10];
 
     private int state = 0;
@@ -80,6 +81,13 @@ public class IDCardActivity extends BTActivity implements OnDataRead {
         if (getService() != null) {
             getService().setOnDataRead(this);
         }
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                FileManager.copyAssets(IDCardActivity.this);
+            }
+        }).start();
     }
 
     @Override
@@ -99,7 +107,9 @@ public class IDCardActivity extends BTActivity implements OnDataRead {
 
     @Override
     public void onDeviceConnectionFailed() {
-        Toast.makeText(this, "连接失败", Toast.LENGTH_SHORT).show();
+        if (!isFinishing()) {
+            Toast.makeText(this, "连接失败", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -110,7 +120,7 @@ public class IDCardActivity extends BTActivity implements OnDataRead {
                     state++;
                     write(CMD_SELECT);
                 } else {
-                    Readflage = -3;//寻卡失败
+                    readFlag = -3;//寻卡失败
                 }
                 break;
             case 1:
@@ -119,7 +129,7 @@ public class IDCardActivity extends BTActivity implements OnDataRead {
                     write(CMD_READ);
                     byteArray = new ArrayList<>();
                 } else {
-                    Readflage = -4;//选卡失败
+                    readFlag = -4;//选卡失败
                 }
                 break;
             case 2:
@@ -189,18 +199,18 @@ public class IDCardActivity extends BTActivity implements OnDataRead {
                     }
                     int t = IDCReaderSDK.unpack(datawlt, byLicData);
                     if (t == 1) {
-                        Readflage = 1;//读卡成功
+                        readFlag = 1;//读卡成功
                     } else {
-                        Readflage = 6;//照片解码异常
+                        readFlag = 6;//照片解码异常
                     }
                 } else {
-                    Readflage = 6;//照片解码异常
+                    readFlag = 6;//照片解码异常
                 }
             } catch (Exception e) {
-                Readflage = 6;//照片解码异常
+                readFlag = 6;//照片解码异常
             }
         } else {
-            Readflage = -5;//读卡失败！
+            readFlag = -5;//读卡失败！
         }
 
         runOnUiThread(new Runnable() {
@@ -213,7 +223,7 @@ public class IDCardActivity extends BTActivity implements OnDataRead {
 
     private void showInfo() {
         try {
-            if (Readflage > 0) {
+            if (readFlag > 0) {
                 mName.setText(decodeInfo[0].trim());
                 mGender.setText(decodeInfo[1].trim());
                 mNation.setText(decodeInfo[2].trim());
@@ -223,7 +233,7 @@ public class IDCardActivity extends BTActivity implements OnDataRead {
                 mIssuingAuthority.setText(decodeInfo[6].trim());
                 mValidPeriod.setText(decodeInfo[7] + "-" + decodeInfo[8]);
 
-                if (Readflage == 1) {
+                if (readFlag == 1) {
                     FileInputStream fis = new FileInputStream(Environment.getExternalStorageDirectory() + "/wltlib/zp.bmp");
                     Bitmap bmp = BitmapFactory.decodeStream(fis);
                     fis.close();
@@ -234,19 +244,19 @@ public class IDCardActivity extends BTActivity implements OnDataRead {
                 }
             } else {
                 image.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.face));
-                if (Readflage == -2) {
+                if (readFlag == -2) {
                     mName.setText("蓝牙连接异常");
                 }
-                if (Readflage == -3) {
+                if (readFlag == -3) {
                     mName.setText("无卡或卡片已读过");
                 }
-                if (Readflage == -4) {
+                if (readFlag == -4) {
                     mName.setText("无卡或卡片已读过");
                 }
-                if (Readflage == -5) {
+                if (readFlag == -5) {
                     mName.setText("读卡失败");
                 }
-                if (Readflage == -99) {
+                if (readFlag == -99) {
                     mName.setText("操作异常");
                 }
             }
