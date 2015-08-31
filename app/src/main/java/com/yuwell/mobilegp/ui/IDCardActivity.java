@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import com.ivsign.android.IDCReader.IDCReaderSDK;
 import com.yuwell.mobilegp.R;
-import com.yuwell.mobilegp.bluetooth.BluetoothLeService;
 import com.yuwell.mobilegp.bluetooth.OnDataRead;
 import com.yuwell.mobilegp.common.utils.FileManager;
 
@@ -90,12 +89,6 @@ public class IDCardActivity extends BTActivity implements OnDataRead {
                 FileManager.copyAssets(IDCardActivity.this);
             }
         }).start();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        stopService(new Intent(this, BluetoothLeService.class));
     }
 
     @Override
@@ -251,7 +244,6 @@ public class IDCardActivity extends BTActivity implements OnDataRead {
                     image.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.face));
                 }
 
-                startService(new Intent(this, BluetoothLeService.class));
                 startActivity(new Intent(this, Home.class));
             } else {
                 image.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.face));

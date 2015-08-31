@@ -431,7 +431,6 @@ public class BluetoothLeService extends Service {
     public void onCreate() {
         super.onCreate();
         mEventBus = EventBus.getDefault();
-        mEventBus.register(this);
 
         boolean bpFirst = true;
         firstDeviceType = bpFirst ? BluetoothConstant.DEVICE_TYPE_BLOOD_PRESSURE :
@@ -457,7 +456,6 @@ public class BluetoothLeService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mEventBus.unregister(this);
         stopLoopScan();
         close();
     }
@@ -656,7 +654,7 @@ public class BluetoothLeService extends Service {
 		event.what = EventMessage.STATE_CHANGE;
 		event.arg1 = mConnectionState;
         mEventBus.post(event);
-    }
+	}
 
     public synchronized int getConnectionState() {
         return mConnectionState;

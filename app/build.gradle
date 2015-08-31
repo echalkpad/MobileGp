@@ -24,4 +24,10 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'de.hdodenhof:circleimageview:1.2.2'
+    compile(name:'core-release', ext:'aar')
+    compile(name:'database-release', ext:'aar')
+    compile 'in.srain.cube:clog:1.0.2'
+    compile('in.srain.cube:cube-sdk:1.0.44@aar') {
+        exclude group: 'in.srain.cube', module: 'clog'
+    }
 }

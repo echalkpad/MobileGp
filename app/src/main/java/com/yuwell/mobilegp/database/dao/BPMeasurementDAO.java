@@ -1,0 +1,15 @@
+package com.yuwell.mobilegp.database.dao;
+
+import com.lidroid.xutils.DbUtils;
+import com.totoro.database.dao.BaseDAO;
+import com.yuwell.mobilegp.database.entity.BPMeasurement;
+
+/**
+ * Created by Chen on 15-8-31.
+ */
+public class BPMeasurementDAO extends BaseDAO<BPMeasurement> {
+
+    public BPMeasurementDAO(DbUtils db) {
+        super(db);
+    }
+}
