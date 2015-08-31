@@ -1,5 +1,6 @@
 package com.yuwell.mobilegp.ui;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.ivsign.android.IDCReader.IDCReaderSDK;
 import com.yuwell.mobilegp.R;
+import com.yuwell.mobilegp.bluetooth.BluetoothLeService;
 import com.yuwell.mobilegp.bluetooth.OnDataRead;
 import com.yuwell.mobilegp.common.utils.FileManager;
 
@@ -88,6 +90,12 @@ public class IDCardActivity extends BTActivity implements OnDataRead {
                 FileManager.copyAssets(IDCardActivity.this);
             }
         }).start();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopService(new Intent(this, BluetoothLeService.class));
     }
 
     @Override
@@ -242,6 +250,9 @@ public class IDCardActivity extends BTActivity implements OnDataRead {
                     mName.append("照片解码失败，请检查路径" + Environment.getExternalStorageDirectory() + "/wltlib/");
                     image.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.face));
                 }
+
+                startService(new Intent(this, BluetoothLeService.class));
+                startActivity(new Intent(this, Home.class));
             } else {
                 image.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.face));
                 if (readFlag == -2) {
