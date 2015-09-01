@@ -1,158 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/header_gradient">
 
-    <Button
-        android:id="@+id/btn_read"
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:enabled="false"
-        android:text="@string/read_card"/>
+        android:src="@drawable/login_text"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/center"/>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true"
+        android:id="@+id/center"/>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:layout_alignParentBottom="true">
 
-        <ImageView
-            android:id="@+id/imageView1"
+        <Button
+            android:id="@+id/btn_read"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/face" />
+            android:background="@drawable/btn_login"
+            android:enabled="false"
+            style="@style/LabelText"
+            android:text="@string/read_card"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <View
+            android:layout_width="20dp"
+            android:layout_height="0dp" />
+
+        <Button
+            android:id="@+id/btn_guest"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="40dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="姓名："/>
-
-            <TextView
-                android:id="@+id/tv_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="40dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="性别："/>
-
-            <TextView
-                android:id="@+id/tv_gender"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:text="民族："/>
-
-            <TextView
-                android:id="@+id/tv_nation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="40dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="出生："/>
-
-            <TextView
-                android:id="@+id/tv_birthday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="40dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="住址："/>
-
-            <TextView
-                android:id="@+id/tv_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="40dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="身份号码："/>
-
-            <TextView
-                android:id="@+id/tv_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="40dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="签发机关："/>
-
-            <TextView
-                android:id="@+id/tv_licence_issuing_authority"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="40dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="有效期限："/>
-
-            <TextView
-                android:id="@+id/tv_valid_period"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
+            android:background="@drawable/btn_login"
+            android:enabled="false"
+            style="@style/LabelText"
+            android:text="@string/guest_login"/>
 
     </LinearLayout>
 
-</LinearLayout>
+
+</RelativeLayout>

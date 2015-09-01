@@ -4,6 +4,8 @@ import com.lidroid.xutils.db.annotation.Column;
 import com.lidroid.xutils.db.annotation.Table;
 import com.totoro.database.entity.EntityBase;
 
+import java.util.Date;
+
 /**
  * Created by Chen on 15-8-31.
  */
@@ -17,7 +19,7 @@ public class Person extends EntityBase {
     private String gender;
 
     @Column(column = "birthday")
-    private String birthday;
+    private Date birthday;
 
     @Column(column = "idNumber")
     private String idNumber;
@@ -41,11 +43,11 @@ public class Person extends EntityBase {
         this.gender = gender;
     }
 
-    public String getBirthday() {
+    public Date getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(String birthday) {
+    public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
 

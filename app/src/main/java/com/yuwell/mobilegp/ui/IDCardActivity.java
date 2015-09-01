@@ -1,25 +1,24 @@
 package com.yuwell.mobilegp.ui;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ivsign.android.IDCReader.IDCReaderSDK;
 import com.yuwell.mobilegp.R;
 import com.yuwell.mobilegp.bluetooth.OnDataRead;
+import com.yuwell.mobilegp.common.GlobalContext;
+import com.yuwell.mobilegp.common.utils.DateUtil;
 import com.yuwell.mobilegp.common.utils.FileManager;
+import com.yuwell.mobilegp.database.DatabaseService;
+import com.yuwell.mobilegp.database.entity.Person;
 
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,15 +37,8 @@ public class IDCardActivity extends BTActivity implements OnDataRead {
     private List<Byte> byteArray = new ArrayList<>();
 
     private Button mRead;
-    private TextView mName;
-    private TextView mGender;
-    private TextView mNation;
-    private TextView mBirthday;
-    private TextView mAddress;
-    private TextView mNumber;
-    private TextView mIssuingAuthority;
-    private TextView mValidPeriod;
-    private ImageView image;
+
+    private DatabaseService db;
 
     private int readFlag = -99;
     private String[] decodeInfo = new String[10];
@@ -58,6 +50,7 @@ public class IDCardActivity extends BTActivity implements OnDataRead {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        db = GlobalContext.getDatabase();
         setContentView(R.layout.id_card_activity);
 
         mRead = (Button) findViewById(R.id.btn_read);
@@ -69,16 +62,6 @@ public class IDCardActivity extends BTActivity implements OnDataRead {
             }
         });
 
-        mName = (TextView) findViewById(R.id.tv_name);
-        mGender = (TextView) findViewById(R.id.tv_gender);
-        mNation = (TextView) findViewById(R.id.tv_nation);
-        mBirthday = (TextView) findViewById(R.id.tv_birthday);
-        mAddress = (TextView) findViewById(R.id.tv_address);
-        mNumber = (TextView) findViewById(R.id.tv_number);
-        mIssuingAuthority = (TextView) findViewById(R.id.tv_licence_issuing_authority);
-        mValidPeriod = (TextView) findViewById(R.id.tv_valid_period);
-        image = (ImageView) findViewById(R.id.imageView1);
-
         if (getService() != null) {
             getService().setOnDataRead(this);
         }
@@ -89,6 +72,18 @@ public class IDCardActivity extends BTActivity implements OnDataRead {
                 FileManager.copyAssets(IDCardActivity.this);
             }
         }).start();
+
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                readFlag = 1;
+                decodeInfo[0] = "陈海";
+                decodeInfo[1] = "男";
+                decodeInfo[3] = "19851121";
+                decodeInfo[5] = "320101198511217275";
+                showInfo();
+            }
+        }, 3000);
     }
 
     @Override
@@ -228,49 +223,48 @@ public class IDCardActivity extends BTActivity implements OnDataRead {
     }
 
     private void showInfo() {
-        try {
-            if (readFlag > 0) {
-                mName.setText(decodeInfo[0].trim());
-                mGender.setText(decodeInfo[1].trim());
-                mNation.setText(decodeInfo[2].trim());
-                mBirthday.setText(decodeInfo[3].trim());
-                mAddress.setText(decodeInfo[4].trim());
-                mNumber.setText(decodeInfo[5].trim());
-                mIssuingAuthority.setText(decodeInfo[6].trim());
-                mValidPeriod.setText(decodeInfo[7] + "-" + decodeInfo[8]);
+        if (readFlag > 0) {
+            Person person = db.getPersonByIdNumber(decodeInfo[5].trim());
+            if (person == null) {
+                person = new Person();
+                person.setName(decodeInfo[0].trim());
+                person.setGender(decodeInfo[1].trim());
+                person.setBirthday(DateUtil.parseCustomString(decodeInfo[3].trim(), "yyyyMMdd"));
+                person.setIdNumber(decodeInfo[5].trim());
 
                 if (readFlag == 1) {
-                    FileInputStream fis = new FileInputStream(Environment.getExternalStorageDirectory() + "/wltlib/zp.bmp");
-                    Bitmap bmp = BitmapFactory.decodeStream(fis);
-                    fis.close();
-                    image.setImageBitmap(bmp);
-                } else {
-                    mName.append("照片解码失败，请检查路径" + Environment.getExternalStorageDirectory() + "/wltlib/");
-                    image.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.face));
+                    final String path = FileManager.getImageDir() + File.separator + person.getIdNumber() + ".bmp";
+                    person.setImgPath(path);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            FileManager.copyFile(Environment.getExternalStorageDirectory() + "/wltlib/zp.bmp", path);
+                        }
+                    });
                 }
 
-                startActivity(new Intent(this, Home.class));
-            } else {
-                image.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.face));
-                if (readFlag == -2) {
-                    mName.setText("蓝牙连接异常");
-                }
-                if (readFlag == -3) {
-                    mName.setText("无卡或卡片已读过");
-                }
-                if (readFlag == -4) {
-                    mName.setText("无卡或卡片已读过");
-                }
-                if (readFlag == -5) {
-                    mName.setText("读卡失败");
-                }
-                if (readFlag == -99) {
-                    mName.setText("操作异常");
-                }
+                db.savePerson(person);
             }
-        } catch (IOException e) {
-            mName.setText("读取数据异常！");
-            image.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.face));
+
+            Intent intent = new Intent(this, Home.class);
+            intent.putExtra(Home.ID, person.getIdNumber());
+            startActivity(intent);
+        } else {
+            if (readFlag == -2) {
+                showMessage("蓝牙连接异常");
+            }
+            if (readFlag == -3) {
+                showMessage("无卡或卡片已读过");
+            }
+            if (readFlag == -4) {
+                showMessage("无卡或卡片已读过");
+            }
+            if (readFlag == -5) {
+                showMessage("读卡失败");
+            }
+            if (readFlag == -99) {
+                showMessage("操作异常");
+            }
         }
     }
 

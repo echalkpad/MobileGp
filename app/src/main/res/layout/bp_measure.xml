@@ -8,75 +8,140 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:paddingTop="@dimen/margin_m"
+        android:paddingBottom="@dimen/margin_m"
+        android:paddingLeft="@dimen/margin_l"
         android:layout_weight="2">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:background="@drawable/circular_rectangle_top_border"
+            android:paddingLeft="@dimen/margin_s"
+            android:paddingTop="@dimen/margin_ss"
+            android:paddingBottom="@dimen/margin_ss">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="35sp"
-                android:text="@string/sbp"/>
-
-            <TextView
-                android:id="@+id/tv_sbp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/mmhg"/>
-
+                android:text="@string/measure_result"
+                style="@style/LabelText"/>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/circular_rectangle_bottom"
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="35sp"
-                android:text="@string/dbp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/margin_s"
+                android:paddingRight="@dimen/margin_s"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_dbp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="28sp"
+                    android:text="@string/sbp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/mmhg"/>
+                <TextView
+                    android:id="@+id/tv_sbp"
+                    android:layout_width="75dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="@dimen/margin_m"
+                    android:layout_marginRight="@dimen/margin_m"
+                    android:gravity="center"
+                    android:textColor="@color/value"
+                    android:text="120"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:background="@color/value_background"/>
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="@string/mmhg"/>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="35sp"
-                android:text="@string/pulse_rate"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/margin_s"
+                android:paddingRight="@dimen/margin_s"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_pulse_rate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="28sp"
+                    android:text="@string/dbp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/per_min"/>
+                <TextView
+                    android:id="@+id/tv_dbp"
+                    android:layout_width="75dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="@dimen/margin_m"
+                    android:layout_marginRight="@dimen/margin_m"
+                    android:gravity="center"
+                    android:textColor="@color/value"
+                    android:text="120"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:background="@color/value_background"/>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="@string/mmhg"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/margin_s"
+                android:paddingRight="@dimen/margin_s"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="28sp"
+                    android:text="@string/pulse_rate"/>
+
+                <TextView
+                    android:id="@+id/tv_pulse_rate"
+                    android:layout_width="75dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="@dimen/margin_m"
+                    android:layout_marginRight="@dimen/margin_m"
+                    android:gravity="center"
+                    android:textColor="@color/value"
+                    android:text="120"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:background="@color/value_background"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="@string/per_min"/>
+
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>

@@ -9,7 +9,10 @@
     <string name="connecting_to_printer">正在连接打印机</string>
     <string name="printing">正在打印</string>
     <string name="connect_failed">连接失败</string>
-    
+
+    <string name="guest_login">游客登录</string>
+    <string name="login_1">请在设备上</string>
+    <string name="login_2">刷身份证登录</string>
     <string name="name">姓名：%s</string>
     <string name="gender">性别：%s</string>
     <string name="birthday">生日：%s</string>
@@ -19,7 +22,7 @@
     <string name="history_measure">历史测量结果</string>
     <string name="sbp">收缩压</string>
     <string name="dbp">舒张压</string>
-    <string name="pulse_rate">脉率</string>
+    <string name="pulse_rate">脉　率</string>
     <string name="mmhg">mmHg</string>
     <string name="per_min">/分钟</string>
 </resources>

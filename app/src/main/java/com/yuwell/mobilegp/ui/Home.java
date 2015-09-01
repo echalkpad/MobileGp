@@ -19,7 +19,10 @@ import android.widget.TextView;
 import com.yuwell.mobilegp.R;
 import com.yuwell.mobilegp.bluetooth.BluetoothConstant;
 import com.yuwell.mobilegp.bluetooth.BluetoothLeService;
+import com.yuwell.mobilegp.common.GlobalContext;
 import com.yuwell.mobilegp.common.event.EventMessage;
+import com.yuwell.mobilegp.common.utils.DateUtil;
+import com.yuwell.mobilegp.database.entity.Person;
 import com.yuwell.mobilegp.ui.fragment.BgMeasure;
 import com.yuwell.mobilegp.ui.fragment.BpMeasure;
 
@@ -27,11 +30,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Chen on 2015/8/31.
  */
 public class Home extends AppCompatActivity {
+
+    public static final String ID = "id";
 
     private int currentTab = 0;
 
@@ -40,8 +46,15 @@ public class Home extends AppCompatActivity {
 
     private TextView mTabOne;
     private TextView mTabTwo;
+    private TextView mName;
+    private TextView mGender;
+    private TextView mBirthday;
+    private TextView mIdNumber;
+    private CircleImageView mImage;
 
     private BluetoothLeService mBluetoothLeService;
+
+    private Person person;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +62,7 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.home);
         initViews();
         startBleService();
+        showInfo();
     }
 
     @Override
@@ -91,6 +105,12 @@ public class Home extends AppCompatActivity {
         mTabOne.setSelected(true);
         mTabTwo = (TextView) findViewById(R.id.tab_2);
 
+        mName = (TextView) findViewById(R.id.tv_name);
+        mGender = (TextView) findViewById(R.id.tv_gender);
+        mBirthday = (TextView) findViewById(R.id.tv_birthday);
+        mIdNumber = (TextView) findViewById(R.id.tv_number);
+        mImage = (CircleImageView) findViewById(R.id.img_user);
+
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
         mAdapter = new AppSectionsPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mAdapter);
@@ -132,6 +152,16 @@ public class Home extends AppCompatActivity {
                 EventBus.getDefault().post(message);
             }
         });
+    }
+
+    private void showInfo() {
+        person = GlobalContext.getDatabase().getPersonByIdNumber(getIntent().getStringExtra(ID));
+        if (person != null) {
+            mName.setText(getString(R.string.name, person.getName()));
+            mGender.setText(getString(R.string.gender, person.getGender()));
+            mBirthday.setText(getString(R.string.birthday, DateUtil.formatCustomDate(person.getBirthday(), "yyyy年MM月dd日")));
+            mIdNumber.setText(getString(R.string.id, person.getIdNumber()));
+        }
     }
 
     private void startBleService() {

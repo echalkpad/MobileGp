@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <dimen name="margin_ss">10dp</dimen>
     <dimen name="margin_s">15dp</dimen>
     <dimen name="margin_m">25dp</dimen>
+    <dimen name="margin_l">35dp</dimen>
+    <dimen name="corner_radius">8dp</dimen>
 </resources>
