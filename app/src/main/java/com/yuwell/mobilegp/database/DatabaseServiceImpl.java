@@ -8,7 +8,12 @@ import com.totoro.database.dao.BaseDAO;
 import com.yuwell.mobilegp.database.dao.BGMeasurementDAO;
 import com.yuwell.mobilegp.database.dao.BPMeasurementDAO;
 import com.yuwell.mobilegp.database.dao.PersonDAO;
+import com.yuwell.mobilegp.database.entity.BPMeasurement;
 import com.yuwell.mobilegp.database.entity.Person;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Chen on 2015/4/23.
@@ -26,9 +31,20 @@ public class DatabaseServiceImpl extends DatabaseManager implements DatabaseServ
 
     @Override
     public Person getPersonByIdNumber(String idNumber) {
-        return null;
+        Map<String, Object> condition = new HashMap<>();
+        condition.put("idNumber", idNumber);
+        return personDAO.getEntity(condition);
     }
 
+    @Override
+    public boolean savePerson(Person person) {
+        return personDAO.saveOrUpdate(person);
+    }
+
+    @Override
+    public List<BPMeasurement> getBpList(Map<String, Object> condition) {
+        return bpMeasurementDAO.getList(condition);
+    }
 
     private DatabaseServiceImpl(String packageNames) {
         super(packageNames);

@@ -5,6 +5,8 @@ import android.content.res.AssetManager;
 import android.os.Environment;
 import android.util.Log;
 
+import com.yuwell.mobilegp.common.GlobalContext;
+
 import junit.framework.Assert;
 
 import java.io.File;
@@ -87,6 +89,27 @@ public class FileManager {
         }
     }
 
+    public static String getImageDir() {
+        String path = getCacheDir() + File.separator + "image";
+        return mkdirsIfNotExist(path);
+    }
+
+    private static String getCacheDir() {
+        if (isExternalStorageMounted()) {
+            File path = GlobalContext.getInstance().getExternalCacheDir();
+            if (path != null) {
+                return path.getAbsolutePath();
+            }
+        } else {
+            File path = GlobalContext.getInstance().getCacheDir();
+            if (path != null) {
+                return path.getAbsolutePath();
+            }
+        }
+
+        return "";
+    }
+
     private static String mkdirsIfNotExist(String path) {
         File dir = new File(path);
         if (!dir.exists()) {
@@ -99,7 +122,7 @@ public class FileManager {
         return path;
     }
 
-    private static boolean copyDir(String fromDir, String toDir, String suffix) {
+    public static boolean copyDir(String fromDir, String toDir, String suffix) {
         boolean flag = false;
 
         File from = new File(fromDir);
@@ -119,7 +142,7 @@ public class FileManager {
         return flag;
     }
 
-    private static boolean copyFile(String from, String to) {
+    public static boolean copyFile(String from, String to) {
         File fromFile = new File(from);
         File toFile = new File(to);
 

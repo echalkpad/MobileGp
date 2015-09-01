@@ -14,6 +14,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.TextView;
 
 import com.yuwell.mobilegp.R;
 import com.yuwell.mobilegp.bluetooth.BluetoothConstant;
@@ -37,11 +38,10 @@ public class Home extends AppCompatActivity {
     private AppSectionsPagerAdapter mAdapter;
     private ViewPager mViewPager;
 
+    private TextView mTabOne;
+    private TextView mTabTwo;
+
     private BluetoothLeService mBluetoothLeService;
-
-    private boolean printerConnected;
-
-    private List<String> toPrintList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,16 +77,20 @@ public class Home extends AppCompatActivity {
      */
     public void onTabClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_bp:
+            case R.id.tab_1:
                 mViewPager.setCurrentItem(0);
                 break;
-            case R.id.btn_bg:
+            case R.id.tab_2:
                 mViewPager.setCurrentItem(1);
                 break;
         }
     }
 
     private void initViews() {
+        mTabOne = (TextView) findViewById(R.id.tab_1);
+        mTabOne.setSelected(true);
+        mTabTwo = (TextView) findViewById(R.id.tab_2);
+
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
         mAdapter = new AppSectionsPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mAdapter);
@@ -97,6 +101,7 @@ public class Home extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int i) {
+                setTabCheck(i);
                 if (mBluetoothLeService != null) {
                     if (currentTab == 0 && i == 1) {
 //                        setConnectionUI(BluetoothProfile.STATE_DISCONNECTED);
@@ -133,6 +138,19 @@ public class Home extends AppCompatActivity {
         Intent startService = new Intent(this, BluetoothLeService.class);
         startService.putExtra(BluetoothLeService.INTENT_TYPE, BluetoothConstant.DEVICE_TYPE_BLOOD_PRESSURE);
         bindService(startService, mServiceConnection, BIND_AUTO_CREATE);
+    }
+
+    private void setTabCheck(int i) {
+        switch (i) {
+            case 0:
+                mTabOne.setSelected(true);
+                mTabTwo.setSelected(false);
+                break;
+            case 1:
+                mTabOne.setSelected(false);
+                mTabTwo.setSelected(true);
+                break;
+        }
     }
 
     /**
