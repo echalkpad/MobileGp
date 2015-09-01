@@ -1,6 +1,7 @@
 package com.yuwell.mobilegp.ui.fragment;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,8 @@ import com.yuwell.mobilegp.R;
 import com.yuwell.mobilegp.bluetooth.BluetoothConstant;
 import com.yuwell.mobilegp.common.event.EventListener;
 import com.yuwell.mobilegp.common.event.EventMessage;
+import com.yuwell.mobilegp.ui.Home;
+import com.yuwell.mobilegp.ui.PrinterActivity;
 
 import de.greenrobot.event.EventBus;
 
@@ -22,14 +25,14 @@ import de.greenrobot.event.EventBus;
  */
 public class BgMeasure extends Fragment implements EventListener {
 
-    private Activity activity;
+    private Home activity;
 
     private TextView mVal;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        this.activity = activity;
+        this.activity = (Home) activity;
     }
 
     @Override
@@ -61,6 +64,14 @@ public class BgMeasure extends Fragment implements EventListener {
         if (event.what == EventMessage.BLE_DATA &&
                 BluetoothConstant.DEVICE_TYPE_BLOOD_GLUCOSE == event.arg1) {
             mVal.setText((String) event.obj);
+        }
+        if (event.what == EventMessage.ON_PRINT && getUserVisibleHint()) {
+            StringBuilder builder = new StringBuilder();
+            builder.append("血糖：" + mVal.getText() + "\n");
+
+            Intent intent = new Intent(activity, PrinterActivity.class);
+            intent.putExtra("text", builder.toString());
+            startActivity(intent);
         }
     }
 

@@ -1,6 +1,7 @@
 package com.yuwell.mobilegp.ui.fragment;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -14,6 +15,8 @@ import com.yuwell.mobilegp.R;
 import com.yuwell.mobilegp.bluetooth.BluetoothConstant;
 import com.yuwell.mobilegp.common.event.EventListener;
 import com.yuwell.mobilegp.common.event.EventMessage;
+import com.yuwell.mobilegp.ui.Home;
+import com.yuwell.mobilegp.ui.PrinterActivity;
 
 import de.greenrobot.event.EventBus;
 
@@ -23,7 +26,7 @@ import de.greenrobot.event.EventBus;
  */
 public class BpMeasure extends Fragment implements EventListener {
 
-    private Activity activity;
+    private Home activity;
 
     private TextView mSbp;
     private TextView mDbp;
@@ -32,7 +35,7 @@ public class BpMeasure extends Fragment implements EventListener {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        this.activity = activity;
+        this.activity = (Home) activity;
     }
 
     @Override
@@ -68,6 +71,16 @@ public class BpMeasure extends Fragment implements EventListener {
             mSbp.setText(String.valueOf(array[0]));
             mDbp.setText(String.valueOf(array[1]));
             mPulseRate.setText(String.valueOf(array[2]));
+        }
+        if (event.what == EventMessage.ON_PRINT && getUserVisibleHint()) {
+            StringBuilder builder = new StringBuilder();
+            builder.append("收缩压：" + mSbp.getText() + "\n");
+            builder.append("舒张压：" + mDbp.getText() + "\n");
+            builder.append("脉  率：" + mPulseRate.getText() + "\n");
+
+            Intent intent = new Intent(activity, PrinterActivity.class);
+            intent.putExtra("text", builder.toString());
+            startActivity(intent);
         }
     }
 

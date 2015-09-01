@@ -28,4 +28,7 @@ public interface EventMessage {
 
     // 停止扫描蓝牙设备
     int STOP_LE_SCAN = 0x17;
+
+    // 点击打印
+    int ON_PRINT = 0x18;
 }

@@ -97,6 +97,11 @@ public class IDCardActivity extends BTActivity implements OnDataRead {
     }
 
     @Override
+    public boolean doDiscoveryOnCreate() {
+        return true;
+    }
+
+    @Override
     public void onDeviceConnected() {
         mRead.setEnabled(true);
     }

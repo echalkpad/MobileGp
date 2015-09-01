@@ -532,11 +532,9 @@ public class BluetoothLeService extends Service {
      * Disconnect current connection if type is secondary device
      */
     public void disconnectSecondaryDevice() {
-        if (mDeviceType == secondDeviceType &&
-                mConnectionState == BluetoothProfile.STATE_CONNECTED) {
+        if (mConnectionState == BluetoothProfile.STATE_CONNECTED) {
             closeGatt();
         }
-        mDeviceType = firstDeviceType;
     }
 
     /**

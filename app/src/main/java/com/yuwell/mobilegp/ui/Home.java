@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -17,11 +18,14 @@ import android.view.View;
 import com.yuwell.mobilegp.R;
 import com.yuwell.mobilegp.bluetooth.BluetoothConstant;
 import com.yuwell.mobilegp.bluetooth.BluetoothLeService;
+import com.yuwell.mobilegp.common.event.EventMessage;
 import com.yuwell.mobilegp.ui.fragment.BgMeasure;
 import com.yuwell.mobilegp.ui.fragment.BpMeasure;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by Chen on 2015/8/31.
@@ -34,6 +38,10 @@ public class Home extends AppCompatActivity {
     private ViewPager mViewPager;
 
     private BluetoothLeService mBluetoothLeService;
+
+    private boolean printerConnected;
+
+    private List<String> toPrintList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +61,7 @@ public class Home extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
 
         if (mBluetoothLeService != null) {
@@ -84,7 +92,8 @@ public class Home extends AppCompatActivity {
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int i, float v, int i2) {}
+            public void onPageScrolled(int i, float v, int i2) {
+            }
 
             @Override
             public void onPageSelected(int i) {
@@ -101,10 +110,23 @@ public class Home extends AppCompatActivity {
             }
 
             @Override
-            public void onPageScrollStateChanged(int i) {}
+            public void onPageScrollStateChanged(int i) {
+            }
         });
 
+        findViewById(R.id.btn_print).setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+//                if (mBluetoothLeService != null) {
+//                    mBluetoothLeService.disconnectSecondaryDevice();
+//                }
+
+                Message message = new Message();
+                message.what = EventMessage.ON_PRINT;
+                EventBus.getDefault().post(message);
+            }
+        });
     }
 
     private void startBleService() {

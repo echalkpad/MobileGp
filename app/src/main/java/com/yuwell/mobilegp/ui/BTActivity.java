@@ -69,7 +69,9 @@ public abstract class BTActivity extends Activity
         filter = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
         this.registerReceiver(mReceiver, filter);
 
-        doDiscovery();
+        if (doDiscoveryOnCreate()) {
+            doDiscovery();
+        }
 
         EventBus.getDefault().register(this);
     }
@@ -123,7 +125,7 @@ public abstract class BTActivity extends Activity
     /**
      * Start device discover with the BluetoothAdapter
      */
-    private void doDiscovery() {
+    protected void doDiscovery() {
         Log.d(TAG, "doDiscovery()");
 
         Set<BluetoothDevice> bondedBluetoothDevices = mBluetoothAdapter.getBondedDevices();
@@ -158,6 +160,8 @@ public abstract class BTActivity extends Activity
 
     public abstract String getDeviceName();
 
+    public abstract boolean doDiscoveryOnCreate();
+
     /**
      * The BroadcastReceiver that listens for discovered devices and changes the title when
      * discovery is finished
@@ -176,11 +180,11 @@ public abstract class BTActivity extends Activity
                 if (device != null && getDeviceName().equalsIgnoreCase(device.getName())) {
                     mDeviceToConnect = device;
                     mService.connect(device);
+                    mBluetoothAdapter.cancelDiscovery();
                 }
                 // When discovery is finished, change the Activity title
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
                 Log.d(TAG, "Discovery finished");
-                showMessage("未发现设备");
             }
         }
     };

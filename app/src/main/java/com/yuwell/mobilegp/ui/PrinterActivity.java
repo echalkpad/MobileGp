@@ -1,11 +1,8 @@
 package com.yuwell.mobilegp.ui;
 
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.os.Handler;
+import android.widget.TextView;
 
 import com.yuwell.mobilegp.R;
 
@@ -18,31 +15,30 @@ public class PrinterActivity extends BTActivity {
 
     private static final String DEVICE_NAME = "BlueTooth Printer";
 
-    private EditText mEditText;
-    private Button mPrint;
+//    private EditText mEditText;
+//    private Button mPrint;
+
+    private TextView mState;
+    private String printText;
+
+    private Handler mHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.printer_activity);
-
-        mEditText = (EditText) findViewById(R.id.txt_content);
-        mPrint = (Button) findViewById(R.id.btn_print);
-        mPrint.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String text = mEditText.getText().toString();
-                if (!TextUtils.isEmpty(text)) {
-                    print(text);
-                    mEditText.setText(null);
-                }
-            }
-        });
+        setContentView(R.layout.dialog_print);
+        mState = (TextView) findViewById(R.id.tv_state);
+        printText = getIntent().getStringExtra("text");
     }
 
     @Override
     public String getDeviceName() {
         return DEVICE_NAME;
+    }
+
+    @Override
+    public boolean doDiscoveryOnCreate() {
+        return true;
     }
 
     public synchronized void print(String message) {
@@ -62,18 +58,30 @@ public class PrinterActivity extends BTActivity {
 
     @Override
     public void onDeviceConnected() {
-        mPrint.setEnabled(true);
+        mState.setText(R.string.printing);
+
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                print(printText);
+
+                if (getService() != null) {
+                    getService().stop();
+                }
+                finish();
+            }
+        }, 600);
     }
 
     @Override
     public void onDeviceDisconnected() {
-        mPrint.setEnabled(false);
+        mState.setText(R.string.not_connected);
     }
 
     @Override
     public void onDeviceConnectionFailed() {
         if (!isFinishing()) {
-            Toast.makeText(this, "连接失败", Toast.LENGTH_SHORT).show();
+            mState.setText(R.string.connect_failed);
         }
     }
 }

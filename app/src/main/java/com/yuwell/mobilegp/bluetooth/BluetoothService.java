@@ -303,6 +303,7 @@ public class BluetoothService {
 
         // Start the service over to restart listening mode
 //        BluetoothService.this.start();
+        postMessage(EventMessage.CONNECTION_FAILED, -1);
     }
 
     /**
@@ -447,7 +448,9 @@ public class BluetoothService {
             setName("ConnectThread" + mSocketType);
 
             // Always cancel discovery because it will slow down a connection
-            mAdapter.cancelDiscovery();
+            if (mAdapter.isDiscovering()) {
+                mAdapter.cancelDiscovery();
+            }
 
             // Make a connection to the BluetoothSocket
             try {

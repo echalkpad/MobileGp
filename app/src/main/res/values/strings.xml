@@ -5,4 +5,8 @@
     <string name="print">打印</string>
     <string name="not_connected">尚未连接任何设备</string>
     <string name="read_card">读卡</string>
+    <string name="printer_not_connected">打印机未连接</string>
+    <string name="connecting_to_printer">正在连接打印机</string>
+    <string name="printing">正在打印</string>
+    <string name="connect_failed">连接失败</string>
 </resources>
