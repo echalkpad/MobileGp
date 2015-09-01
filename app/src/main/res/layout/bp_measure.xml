@@ -2,15 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="@color/background"
+    android:padding="@dimen/margin_m">
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingTop="@dimen/margin_m"
-        android:paddingBottom="@dimen/margin_m"
-        android:paddingLeft="@dimen/margin_l"
         android:layout_weight="2">
 
         <LinearLayout
@@ -47,6 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="28sp"
+                    android:textColor="@android:color/black"
                     android:text="@string/sbp"/>
 
                 <TextView
@@ -66,6 +65,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
+                    android:textColor="@android:color/black"
                     android:text="@string/mmhg"/>
 
             </LinearLayout>
@@ -83,6 +83,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="28sp"
+                    android:textColor="@android:color/black"
                     android:text="@string/dbp"/>
 
                 <TextView
@@ -102,6 +103,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
+                    android:textColor="@android:color/black"
                     android:text="@string/mmhg"/>
 
             </LinearLayout>
@@ -119,6 +121,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="28sp"
+                    android:textColor="@android:color/black"
                     android:text="@string/pulse_rate"/>
 
                 <TextView
@@ -139,6 +142,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
+                    android:textColor="@android:color/black"
                     android:text="@string/per_min"/>
 
             </LinearLayout>
@@ -149,7 +153,49 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/margin_s"
+        android:orientation="vertical"
         android:layout_weight="3">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/circular_rectangle_top_border"
+            android:paddingLeft="@dimen/margin_s"
+            android:paddingTop="@dimen/margin_ss"
+            android:paddingBottom="@dimen/margin_ss">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/measure_result"
+                style="@style/LabelText"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:padding="5dp"
+            android:background="@color/value_background">
+
+            <com.yuwell.mobilegp.ui.widget.DateRangePicker
+                android:id="@+id/date_range_picker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.yuwell.mobilegp.ui.widget.PopupListView
+                android:id="@+id/pop_list"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <ExpandableListView
+            android:id="@+id/lv_bp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/circular_rectangle_bottom" />
 
     </LinearLayout>
 

@@ -25,4 +25,21 @@
     <string name="pulse_rate">脉　率</string>
     <string name="mmhg">mmHg</string>
     <string name="per_min">/分钟</string>
+
+    <string name="blood_glucose">血糖值</string>
+    <string name="mmol">mmol/L</string>
+    <string name="measure_time">测量时间</string>
+    <string name="all">全部</string>
+
+    <string name="bg_level_0">偏低</string>
+    <string name="bg_level_1">正常</string>
+    <string name="bg_level_2">偏高</string>
+    <string name="bg_level_3">非常高</string>
+
+    <string name="bp_level_0">理想</string>
+    <string name="bp_level_1">正常</string>
+    <string name="bp_level_2">边缘</string>
+    <string name="bp_level_3">轻度</string>
+    <string name="bp_level_4">中度</string>
+    <string name="bp_level_5">重度</string>
 </resources>

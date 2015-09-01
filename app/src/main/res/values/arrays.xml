@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="pressure_level">
+        <item>@string/all</item>
+        <item>@string/bp_level_0</item>
+        <item>@string/bp_level_1</item>
+        <item>@string/bp_level_2</item>
+        <item>@string/bp_level_3</item>
+        <item>@string/bp_level_4</item>
+        <item>@string/bp_level_5</item>
+    </string-array>
+
+    <string-array name="bg_level">
+        <item>@string/all</item>
+        <item>@string/bg_level_0</item>
+        <item>@string/bg_level_1</item>
+        <item>@string/bg_level_2</item>
+        <item>@string/bg_level_3</item>
+    </string-array>
+</resources>

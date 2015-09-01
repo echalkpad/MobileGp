@@ -5,4 +5,5 @@
     <color name="top_header">#4d8ed9</color>
     <color name="value">#53a1ec</color>
     <color name="value_background">#e5e5e5</color>
+    <color name="grey_border">#C8C8C8</color>
 </resources>

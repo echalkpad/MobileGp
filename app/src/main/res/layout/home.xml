@@ -8,13 +8,14 @@
         android:layout_height="wrap_content"
         android:paddingTop="20dp"
         android:paddingBottom="20dp"
+        android:paddingLeft="@dimen/margin_m"
+        android:paddingRight="@dimen/margin_m"
         android:background="@drawable/header_gradient">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/img_user"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_marginLeft="@dimen/margin_m"
             android:src="@drawable/user_head"/>
 
         <LinearLayout
@@ -71,7 +72,6 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/margin_m"
             android:layout_alignParentRight="true"
             android:layout_alignBottom="@+id/layout_info_1"
             android:orientation="horizontal">

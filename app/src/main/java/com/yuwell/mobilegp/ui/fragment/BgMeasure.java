@@ -16,6 +16,10 @@ import com.yuwell.mobilegp.common.event.EventListener;
 import com.yuwell.mobilegp.common.event.EventMessage;
 import com.yuwell.mobilegp.ui.Home;
 import com.yuwell.mobilegp.ui.PrinterActivity;
+import com.yuwell.mobilegp.ui.widget.DateRangePicker;
+import com.yuwell.mobilegp.ui.widget.PopupListView;
+
+import java.util.Date;
 
 import de.greenrobot.event.EventBus;
 
@@ -29,10 +33,15 @@ public class BgMeasure extends Fragment implements EventListener {
 
     private TextView mVal;
 
+    private Date start;
+    private Date end;
+    private String level;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.activity = (Home) activity;
+        start = end = new Date();
     }
 
     @Override
@@ -46,6 +55,33 @@ public class BgMeasure extends Fragment implements EventListener {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View mainView = inflater.inflate(R.layout.bg_measure, container, false);
         mVal = (TextView) mainView.findViewById(R.id.tv_bg_val);
+
+        DateRangePicker picker = (DateRangePicker) mainView.findViewById(R.id.date_range_picker);
+        picker.setDate(start, end);
+        picker.setOnDateSetListener(new DateRangePicker.OnDateSetListener() {
+            @Override
+            public void onStartSet(Date date) {
+                start = date;
+            }
+
+            @Override
+            public void onEndSet(Date date) {
+                end = date;
+            }
+        });
+
+        PopupListView popupListView = (PopupListView) mainView.findViewById(R.id.pop_list);
+        popupListView.setLevels(R.array.bg_level);
+        popupListView.setOnItemClickListener(new PopupListView.OnItemClickListener() {
+            @Override
+            public void onItemClick(int pos) {
+                if (pos != 0) {
+                    level = String.valueOf(pos - 1);
+                } else {
+                    level = "";
+                }
+            }
+        });
         return mainView;
     }
 
