@@ -19,7 +19,6 @@
 
         <activity
             android:name=".ui.PrinterActivity"
-            android:launchMode="singleTop"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/Theme.AppCompat.Dialog"/>
 

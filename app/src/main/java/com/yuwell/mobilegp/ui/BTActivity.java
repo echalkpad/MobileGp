@@ -89,6 +89,14 @@ public abstract class BTActivity extends Activity
     @Override
     public void onDestroy() {
         super.onDestroy();
+        stopBT();
+
+        // Unregister broadcast listeners
+        this.unregisterReceiver(mReceiver);
+        EventBus.getDefault().unregister(this);
+    }
+
+    protected void stopBT() {
         if (mService != null) {
             mService.stop();
         }
@@ -97,10 +105,6 @@ public abstract class BTActivity extends Activity
         if (mBluetoothAdapter != null) {
             mBluetoothAdapter.cancelDiscovery();
         }
-
-        // Unregister broadcast listeners
-        this.unregisterReceiver(mReceiver);
-        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -190,6 +194,10 @@ public abstract class BTActivity extends Activity
     };
 
     public void showMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    public void showMessage(int message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

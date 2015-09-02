@@ -4,6 +4,8 @@ import android.bluetooth.BluetoothProfile;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Message;
@@ -13,6 +15,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -165,6 +168,11 @@ public class Home extends AppCompatActivity {
             mGender.setText(getString(R.string.gender, person.getGender()));
             mBirthday.setText(getString(R.string.birthday, DateUtil.formatCustomDate(person.getBirthday(), "yyyy年MM月dd日")));
             mIdNumber.setText(getString(R.string.id, person.getIdNumber()));
+
+            if (!TextUtils.isEmpty(person.getImgPath())) {
+                Bitmap bitmap = BitmapFactory.decodeFile(person.getImgPath());
+                mImage.setImageBitmap(bitmap);
+            }
         }
     }
 

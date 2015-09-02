@@ -47,6 +47,8 @@ public class IDCardActivity extends BTActivity implements OnDataRead {
 
     private Handler mHandler = new Handler();
 
+    private boolean connected = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,11 +56,34 @@ public class IDCardActivity extends BTActivity implements OnDataRead {
         setContentView(R.layout.id_card_activity);
 
         mRead = (Button) findViewById(R.id.btn_read);
+        mRead.setEnabled(true);
         mRead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                write(CMD_FIND);
-                state = 0;
+//                if (connected) {
+//                    write(CMD_FIND);
+//                    state = 0;
+//                } else {
+//                    showMessage(R.string.not_connected);
+//                }
+                readFlag = 1;
+                decodeInfo[0] = "陈海";
+                decodeInfo[1] = "男";
+                decodeInfo[3] = "19851121";
+                decodeInfo[5] = "320101198511217275";
+                showInfo();
+            }
+        });
+
+        findViewById(R.id.btn_guest).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                readFlag = 2;
+                decodeInfo[0] = "游客";
+                decodeInfo[1] = "男";
+                decodeInfo[3] = "19800101";
+                decodeInfo[5] = "00000000";
+                showInfo();
             }
         });
 
@@ -73,17 +98,18 @@ public class IDCardActivity extends BTActivity implements OnDataRead {
             }
         }).start();
 
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                readFlag = 1;
-                decodeInfo[0] = "陈海";
-                decodeInfo[1] = "男";
-                decodeInfo[3] = "19851121";
-                decodeInfo[5] = "320101198511217275";
-                showInfo();
-            }
-        }, 3000);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        doDiscovery();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopBT();
     }
 
     @Override
@@ -93,16 +119,18 @@ public class IDCardActivity extends BTActivity implements OnDataRead {
 
     @Override
     public boolean doDiscoveryOnCreate() {
-        return true;
+        return false;
     }
 
     @Override
     public void onDeviceConnected() {
+        connected = true;
         mRead.setEnabled(true);
     }
 
     @Override
     public void onDeviceDisconnected() {
+        connected = false;
         mRead.setEnabled(false);
     }
 
@@ -240,7 +268,7 @@ public class IDCardActivity extends BTActivity implements OnDataRead {
                         public void run() {
                             FileManager.copyFile(Environment.getExternalStorageDirectory() + "/wltlib/zp.bmp", path);
                         }
-                    });
+                    }).start();
                 }
 
                 db.savePerson(person);
