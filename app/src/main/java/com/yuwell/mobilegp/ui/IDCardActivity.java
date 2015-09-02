@@ -115,6 +115,11 @@ public class IDCardActivity extends BTActivity implements OnDataRead {
     }
 
     @Override
+    public void onNothingDiscovered() {
+
+    }
+
+    @Override
     public void onDeviceConnected() {
         connected = true;
         mRead.setEnabled(true);

@@ -44,6 +44,8 @@ public abstract class BTActivity extends Activity
 
     private BluetoothDevice mDeviceToConnect;
 
+    private boolean discovered;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,6 +133,7 @@ public abstract class BTActivity extends Activity
      */
     protected void doDiscovery() {
         Log.d(TAG, "doDiscovery()");
+        discovered = false;
 
         Set<BluetoothDevice> bondedBluetoothDevices = mBluetoothAdapter.getBondedDevices();
         if (bondedBluetoothDevices.size() > 0) {
@@ -166,6 +169,8 @@ public abstract class BTActivity extends Activity
 
     public abstract boolean doDiscoveryOnCreate();
 
+    public abstract void onNothingDiscovered();
+
     /**
      * The BroadcastReceiver that listens for discovered devices and changes the title when
      * discovery is finished
@@ -185,10 +190,14 @@ public abstract class BTActivity extends Activity
                     mDeviceToConnect = device;
                     mService.connect(device);
                     mBluetoothAdapter.cancelDiscovery();
+                    discovered = true;
                 }
                 // When discovery is finished, change the Activity title
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
                 Log.d(TAG, "Discovery finished");
+                if (!discovered) {
+                    onNothingDiscovered();
+                }
             }
         }
     };

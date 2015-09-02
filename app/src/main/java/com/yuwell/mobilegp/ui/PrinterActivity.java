@@ -15,9 +15,6 @@ public class PrinterActivity extends BTActivity {
 
     private static final String DEVICE_NAME = "BlueTooth Printer";
 
-//    private EditText mEditText;
-//    private Button mPrint;
-
     private TextView mState;
     private String printText;
 
@@ -39,6 +36,11 @@ public class PrinterActivity extends BTActivity {
     @Override
     public boolean doDiscoveryOnCreate() {
         return true;
+    }
+
+    @Override
+    public void onNothingDiscovered() {
+        mState.setText(R.string.no_device_found);
     }
 
     public synchronized void print(String message) {

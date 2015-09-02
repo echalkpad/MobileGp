@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MobileGp</string>
+    <string name="app_name">鱼跃移动巡诊</string>
 
     <string name="bluetooth_not_available">蓝牙设备不可用</string>
     <string name="print">打印</string>
@@ -9,6 +9,7 @@
     <string name="connecting_to_printer">正在连接打印机</string>
     <string name="printing">正在打印</string>
     <string name="connect_failed">连接失败</string>
+    <string name="no_device_found">未找到设备</string>
 
     <string name="guest_login">游客登录</string>
     <string name="login_1">请在设备上</string>
