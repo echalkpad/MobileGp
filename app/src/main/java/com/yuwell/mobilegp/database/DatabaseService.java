@@ -3,6 +3,7 @@ package com.yuwell.mobilegp.database;
 import com.yuwell.mobilegp.database.entity.BPMeasurement;
 import com.yuwell.mobilegp.database.entity.Person;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -15,5 +16,10 @@ public interface DatabaseService {
 
     boolean savePerson(Person person);
 
-    List<BPMeasurement> getBpList(Map<String, Object> condition);
+    List<Date> getBPHistoryDistinctDate(Map<String, Object> condition);
+
+    Map<Date, List<BPMeasurement>> getBPListGroupByDate(List<Date> dateList, Map<String, Object> condition);
+
+    boolean saveBP(BPMeasurement measurement);
+
 }

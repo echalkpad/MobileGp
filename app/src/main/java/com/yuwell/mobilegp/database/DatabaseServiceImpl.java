@@ -5,12 +5,14 @@ import com.totoro.commons.classresolver.ClassFilter;
 import com.totoro.database.DatabaseManager;
 import com.totoro.database.annotation.Resource;
 import com.totoro.database.dao.BaseDAO;
+import com.yuwell.mobilegp.common.Const;
 import com.yuwell.mobilegp.database.dao.BGMeasurementDAO;
 import com.yuwell.mobilegp.database.dao.BPMeasurementDAO;
 import com.yuwell.mobilegp.database.dao.PersonDAO;
 import com.yuwell.mobilegp.database.entity.BPMeasurement;
 import com.yuwell.mobilegp.database.entity.Person;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,8 +44,24 @@ public class DatabaseServiceImpl extends DatabaseManager implements DatabaseServ
     }
 
     @Override
-    public List<BPMeasurement> getBpList(Map<String, Object> condition) {
-        return bpMeasurementDAO.getList(condition);
+    public List<Date> getBPHistoryDistinctDate(Map<String, Object> condition) {
+        return bpMeasurementDAO.getMeasureDate(condition);
+    }
+
+    @Override
+    public Map<Date, List<BPMeasurement>> getBPListGroupByDate(List<Date> dateList, Map<String, Object> condition) {
+        Map<Date, List<BPMeasurement>> map = new HashMap<Date, List<BPMeasurement>>();
+        for (Date date : dateList) {
+            condition.put(Const.START_DATE, date);
+            condition.put(Const.END_DATE, date);
+            map.put(date, bpMeasurementDAO.getList(condition));
+        }
+        return map;
+    }
+
+    @Override
+    public boolean saveBP(BPMeasurement measurement) {
+        return bpMeasurementDAO.saveOrUpdate(measurement);
     }
 
     private DatabaseServiceImpl(String packageNames) {

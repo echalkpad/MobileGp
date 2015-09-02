@@ -36,9 +36,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:paddingLeft="@dimen/margin_s"
+                android:paddingLeft="@dimen/margin_l"
                 android:paddingRight="@dimen/margin_s"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <TextView
@@ -56,7 +56,6 @@
                     android:layout_marginRight="@dimen/margin_m"
                     android:gravity="center"
                     android:textColor="@color/value"
-                    android:text="120"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:background="@color/value_background"/>
@@ -74,9 +73,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:paddingLeft="@dimen/margin_s"
+                android:paddingLeft="@dimen/margin_l"
                 android:paddingRight="@dimen/margin_s"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <TextView
@@ -94,7 +93,6 @@
                     android:layout_marginRight="@dimen/margin_m"
                     android:gravity="center"
                     android:textColor="@color/value"
-                    android:text="120"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:background="@color/value_background"/>
@@ -112,9 +110,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:paddingLeft="@dimen/margin_s"
+                android:paddingLeft="@dimen/margin_l"
                 android:paddingRight="@dimen/margin_s"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <TextView
@@ -132,7 +130,6 @@
                     android:layout_marginRight="@dimen/margin_m"
                     android:gravity="center"
                     android:textColor="@color/value"
-                    android:text="120"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:background="@color/value_background"/>
@@ -195,6 +192,7 @@
             android:id="@+id/lv_bp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:groupIndicator="@null"
             android:background="@drawable/circular_rectangle_bottom" />
 
     </LinearLayout>

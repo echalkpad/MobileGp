@@ -42,4 +42,6 @@
     <string name="bp_level_3">轻度</string>
     <string name="bp_level_4">中度</string>
     <string name="bp_level_5">重度</string>
+
+    <string name="no_data">未查询到数据</string>
 </resources>

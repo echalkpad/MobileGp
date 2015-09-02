@@ -100,6 +100,10 @@ public class Home extends AppCompatActivity {
         }
     }
 
+    public Person getPerson() {
+        return person;
+    }
+
     private void initViews() {
         mTabOne = (TextView) findViewById(R.id.tab_1);
         mTabOne.setSelected(true);

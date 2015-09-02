@@ -78,7 +78,6 @@
 			android:layout_marginRight="@dimen/margin_l"
 			android:layout_alignParentRight="true"
 			android:layout_centerVertical="true"
-			android:text="正常"
 			android:textSize="18sp"/>
 
 	</RelativeLayout>

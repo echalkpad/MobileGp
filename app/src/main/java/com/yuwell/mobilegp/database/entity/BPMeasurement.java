@@ -14,6 +14,9 @@ import java.util.Date;
 @Table(name = "BPMEASUREMENT")
 public class BPMeasurement extends EntityBase {
 
+    public static final String COLUMN_PERSONID = "personId";
+    public static final String COLUMN_LEVEL = "level";
+
     public static final String PRESSURE_LEVEL_IDEAL = "0";
     public static final String PRESSURE_LEVEL_NORMAL = "1";
     public static final String PRESSURE_LEVEL_LOWER = "2";

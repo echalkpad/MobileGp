@@ -3,6 +3,7 @@ package com.yuwell.mobilegp.common.utils;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.os.Environment;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.yuwell.mobilegp.common.GlobalContext;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.FileChannel;
+import java.util.Date;
 
 public class FileManager {
 
@@ -92,6 +94,32 @@ public class FileManager {
     public static String getImageDir() {
         String path = getCacheDir() + File.separator + "image";
         return mkdirsIfNotExist(path);
+    }
+
+    public static boolean backupDatabase() {
+        String dbDir = getDataDir(DATABASES);
+        String toDir = getBackupDir(BACKUP_DB);
+
+        boolean flag = false;
+        if (!TextUtils.isEmpty(toDir)) {
+            flag = copyFileUsingFileChannel(dbDir + File.separator + "mobilegp.db",
+                    toDir + File.separator + "mobilegp.db");
+        }
+
+        return flag;
+    }
+
+    private static String getDataDir(String type) {
+        return GlobalContext.getInstance().getApplicationInfo().dataDir + File.separator + type;
+    }
+
+    private static String getBackupDir(String folderName) {
+        if (!isExternalStorageMounted()) {
+            return "";
+        } else {
+            String path = getCacheDir() + File.separator + folderName + File.separator +  new Date().getTime();
+            return mkdirsIfNotExist(path);
+        }
     }
 
     private static String getCacheDir() {

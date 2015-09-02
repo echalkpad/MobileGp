@@ -13,15 +13,21 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.totoro.commons.adapter.BaseViewHolder;
 import com.totoro.commons.utils.DateUtil;
 import com.totoro.commons.utils.ResourceUtil;
 import com.yuwell.mobilegp.R;
 import com.yuwell.mobilegp.bluetooth.BluetoothConstant;
+import com.yuwell.mobilegp.common.Const;
+import com.yuwell.mobilegp.common.GlobalContext;
 import com.yuwell.mobilegp.common.event.EventListener;
 import com.yuwell.mobilegp.common.event.EventMessage;
+import com.yuwell.mobilegp.common.utils.CommonUtil;
+import com.yuwell.mobilegp.database.DatabaseService;
 import com.yuwell.mobilegp.database.entity.BPMeasurement;
+import com.yuwell.mobilegp.database.entity.Person;
 import com.yuwell.mobilegp.ui.Home;
 import com.yuwell.mobilegp.ui.PrinterActivity;
 import com.yuwell.mobilegp.ui.widget.DateRangePicker;
@@ -54,12 +60,17 @@ public class BpMeasure extends Fragment implements EventListener {
     private Date end;
     private String level;
 
+    private Person person;
+    private DatabaseService db;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.activity = (Home) activity;
+        person = this.activity.getPerson();
 
         start = end = new Date();
+        db = GlobalContext.getDatabase();
     }
 
     @Override
@@ -82,11 +93,13 @@ public class BpMeasure extends Fragment implements EventListener {
             @Override
             public void onStartSet(Date date) {
                 start = date;
+                setListData();
             }
 
             @Override
             public void onEndSet(Date date) {
                 end = date;
+                setListData();
             }
         });
 
@@ -100,10 +113,14 @@ public class BpMeasure extends Fragment implements EventListener {
                 } else {
                     level = "";
                 }
+                setListData();
             }
         });
 
         mListView = (ExpandableListView) mainView.findViewById(R.id.lv_bp);
+        mAdapter = new HistoryAdapter(activity);
+        mListView.setAdapter(mAdapter);
+        setListData();
 
         return mainView;
     }
@@ -112,6 +129,23 @@ public class BpMeasure extends Fragment implements EventListener {
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    private void setListData() {
+        Map<String, Object> condition = new HashMap<>();
+        condition.put(BPMeasurement.COLUMN_PERSONID, person.getId());
+        condition.put(BPMeasurement.COLUMN_LEVEL, level);
+        condition.put(Const.START_DATE, start);
+        condition.put(Const.END_DATE, end);
+
+        List<Date> dateList = db.getBPHistoryDistinctDate(condition);
+        if (dateList.size() > 0) {
+            Map<Date, List<BPMeasurement>> dateMap = db.getBPListGroupByDate(dateList, condition);
+            mAdapter.setData(dateList, dateMap);
+        } else {
+            mAdapter.setData(dateList, new HashMap<Date, List<BPMeasurement>>());
+            Toast.makeText(activity, R.string.no_data, Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
@@ -125,6 +159,17 @@ public class BpMeasure extends Fragment implements EventListener {
             mSbp.setText(String.valueOf(array[0]));
             mDbp.setText(String.valueOf(array[1]));
             mPulseRate.setText(String.valueOf(array[2]));
+
+            BPMeasurement measurement = new BPMeasurement();
+            measurement.setSbp(array[0]);
+            measurement.setDbp(array[1]);
+            measurement.setPulseRate(array[2]);
+            measurement.setLevel(CommonUtil.getPressureLevel(array[0], array[1]));
+            measurement.setPerson(person);
+            measurement.setMeasureTime(new Date());
+            if (db.saveBP(measurement)) {
+                setListData();
+            }
         }
         if (event.what == EventMessage.ON_PRINT && getUserVisibleHint()) {
             StringBuilder builder = new StringBuilder();
@@ -219,7 +264,6 @@ public class BpMeasure extends Fragment implements EventListener {
             holder.mSbpDbp.setText(bpMeasurement.getSbp() + " / " + bpMeasurement.getDbp());
             holder.mPulseRate.setText(String.valueOf(bpMeasurement.getPulseRate()));
             holder.mLevel.setText(ResourceUtil.getStringId("bp_level_" + bpMeasurement.getLevel()));
-            holder.mLevel.setTextColor(getResources().getColor(ResourceUtil.getColorId("level_" + bpMeasurement.getLevel())));
 
             return convertView;
         }
