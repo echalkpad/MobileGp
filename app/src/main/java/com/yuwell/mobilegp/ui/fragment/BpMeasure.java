@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.totoro.commons.adapter.BaseViewHolder;
 import com.totoro.commons.utils.DateUtil;
@@ -144,7 +143,6 @@ public class BpMeasure extends Fragment implements EventListener {
             mAdapter.setData(dateList, dateMap);
         } else {
             mAdapter.setData(dateList, new HashMap<Date, List<BPMeasurement>>());
-            Toast.makeText(activity, R.string.no_data, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -303,6 +301,4 @@ public class BpMeasure extends Fragment implements EventListener {
             mLevel = (TextView) view.findViewById(R.id.tv_level);
         }
     }
-
-
 }

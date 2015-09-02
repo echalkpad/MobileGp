@@ -13,10 +13,13 @@ import java.util.Date;
 @Table(name = "BGMEASUREMENT")
 public class BGMeasurement extends EntityBase {
 
-	public static final int LEVEL_LOW = 1;
-	public static final int LEVEL_NORMAL = 2;
-	public static final int LEVEL_HIGH = 3;
-	public static final int LEVEL_EXTREME_HIGH = 4;
+	public static final String COLUMN_PERSONID = "personId";
+	public static final String COLUMN_LEVEL = "level";
+
+	public static final String LEVEL_LOW = "0";
+	public static final String LEVEL_NORMAL = "1";
+	public static final String LEVEL_HIGH = "2";
+	public static final String LEVEL_EXTREME_HIGH = "3";
 
 	@Column(column = "value")
 	private float value;
@@ -28,7 +31,7 @@ public class BGMeasurement extends EntityBase {
 	private Person person;
 
 	@Column(column = "level")
-	private int level;
+	private String level;
 
 	public float getValue() {
 		return value;
@@ -54,11 +57,11 @@ public class BGMeasurement extends EntityBase {
 		this.person = person;
 	}
 
-	public int getLevel() {
+	public String getLevel() {
 		return level;
 	}
 
-	public void setLevel(int level) {
+	public void setLevel(String level) {
 		this.level = level;
 	}
 }

@@ -1,5 +1,6 @@
 package com.yuwell.mobilegp.database;
 
+import com.yuwell.mobilegp.database.entity.BGMeasurement;
 import com.yuwell.mobilegp.database.entity.BPMeasurement;
 import com.yuwell.mobilegp.database.entity.Person;
 
@@ -22,4 +23,9 @@ public interface DatabaseService {
 
     boolean saveBP(BPMeasurement measurement);
 
+    List<Date> getBGHistoryDistinctDate(Map<String, Object> condition);
+
+    Map<Date, List<BGMeasurement>> getBGListGroupByDate(List<Date> dateList, Map<String, Object> condition);
+
+    boolean saveBG(BGMeasurement measurement);
 }

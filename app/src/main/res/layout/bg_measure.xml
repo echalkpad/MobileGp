@@ -84,7 +84,7 @@
                     android:text="@string/measure_time"/>
 
                 <TextView
-                    android:id="@+id/tv_pulse_rate"
+                    android:id="@+id/tv_measure_time"
                     android:layout_width="140dp"
                     android:layout_height="40dp"
                     android:layout_marginLeft="@dimen/margin_m"
@@ -141,10 +141,11 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
-        <ListView
-            android:id="@+id/lv_solution_test"
+        <ExpandableListView
+            android:id="@+id/lv_bg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:groupIndicator="@null"
             android:background="@drawable/circular_rectangle_bottom" />
 
     </LinearLayout>

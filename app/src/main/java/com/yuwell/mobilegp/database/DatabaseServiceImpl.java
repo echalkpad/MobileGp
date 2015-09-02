@@ -9,6 +9,7 @@ import com.yuwell.mobilegp.common.Const;
 import com.yuwell.mobilegp.database.dao.BGMeasurementDAO;
 import com.yuwell.mobilegp.database.dao.BPMeasurementDAO;
 import com.yuwell.mobilegp.database.dao.PersonDAO;
+import com.yuwell.mobilegp.database.entity.BGMeasurement;
 import com.yuwell.mobilegp.database.entity.BPMeasurement;
 import com.yuwell.mobilegp.database.entity.Person;
 
@@ -62,6 +63,27 @@ public class DatabaseServiceImpl extends DatabaseManager implements DatabaseServ
     @Override
     public boolean saveBP(BPMeasurement measurement) {
         return bpMeasurementDAO.saveOrUpdate(measurement);
+    }
+
+    @Override
+    public List<Date> getBGHistoryDistinctDate(Map<String, Object> condition) {
+        return bgMeasurementDAO.getMeasureDate(condition);
+    }
+
+    @Override
+    public Map<Date, List<BGMeasurement>> getBGListGroupByDate(List<Date> dateList, Map<String, Object> condition) {
+        Map<Date, List<BGMeasurement>> map = new HashMap<>();
+        for (Date date : dateList) {
+            condition.put(Const.START_DATE, date);
+            condition.put(Const.END_DATE, date);
+            map.put(date, bgMeasurementDAO.getList(condition));
+        }
+        return map;
+    }
+
+    @Override
+    public boolean saveBG(BGMeasurement measurement) {
+        return bgMeasurementDAO.saveOrUpdate(measurement);
     }
 
     private DatabaseServiceImpl(String packageNames) {

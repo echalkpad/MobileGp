@@ -3,6 +3,8 @@ package com.yuwell.mobilegp.common.utils;
 import com.yuwell.mobilegp.database.entity.BGMeasurement;
 import com.yuwell.mobilegp.database.entity.BPMeasurement;
 
+import java.util.Date;
+
 /**
  * Created by Chen on 15-8-31.
  */
@@ -14,9 +16,10 @@ public class CommonUtil {
      * @param measurePoint
      * @return
      */
-    public static int getGlucoseLevel(float glucoseVal, int measurePoint) {
-        int level;
+    public static String getGlucoseLevel(float glucoseVal) {
+        String level;
 
+        int measurePoint = getMeasurePoint();
         if (measurePoint % 2 == 0) {
             //餐前
             if (glucoseVal < 4.2f) {
@@ -77,5 +80,34 @@ public class CommonUtil {
         }
 
         return Integer.valueOf(sbplevel) > Integer.valueOf(dbplevel) ? sbplevel : dbplevel;
+    }
+
+    public static int getMeasurePoint() {
+        int hour = DateUtil.getHourOfDay(new Date());
+
+        int id = 0;
+        if (hour < 8) {
+            id = 0;
+        }
+        if (hour >= 8 && hour < 10) {
+            id = 1;
+        }
+        if (hour >= 10 && hour < 12) {
+            id = 2;
+        }
+        if (hour >= 12 && hour < 15) {
+            id = 3;
+        }
+        if (hour >= 15 && hour < 18) {
+            id = 4;
+        }
+        if (hour >=18 && hour < 20) {
+            id = 5;
+        }
+        if (hour >= 20) {
+            id = 6;
+        }
+
+        return id;
     }
 }
