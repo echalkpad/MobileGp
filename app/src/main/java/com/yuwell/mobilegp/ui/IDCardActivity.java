@@ -56,22 +56,15 @@ public class IDCardActivity extends BTActivity implements OnDataRead {
         setContentView(R.layout.id_card_activity);
 
         mRead = (Button) findViewById(R.id.btn_read);
-        mRead.setEnabled(true);
         mRead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (connected) {
-//                    write(CMD_FIND);
-//                    state = 0;
-//                } else {
-//                    showMessage(R.string.not_connected);
-//                }
-                readFlag = 1;
-                decodeInfo[0] = "陈海";
-                decodeInfo[1] = "男";
-                decodeInfo[3] = "19851121";
-                decodeInfo[5] = "320101198511217275";
-                showInfo();
+                if (connected) {
+                    write(CMD_FIND);
+                    state = 0;
+                } else {
+                    showMessage(R.string.not_connected);
+                }
             }
         });
 
@@ -97,7 +90,6 @@ public class IDCardActivity extends BTActivity implements OnDataRead {
                 FileManager.copyAssets(IDCardActivity.this);
             }
         }).start();
-
     }
 
     @Override
