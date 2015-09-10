@@ -15,8 +15,8 @@ import android.widget.TextView;
 
 import com.totoro.commons.adapter.BaseViewHolder;
 import com.totoro.commons.utils.ResourceUtil;
+import com.yuwell.bluetooth.constants.BleMessage;
 import com.yuwell.mobilegp.R;
-import com.yuwell.mobilegp.bluetooth.BluetoothConstant;
 import com.yuwell.mobilegp.common.Const;
 import com.yuwell.mobilegp.common.GlobalContext;
 import com.yuwell.mobilegp.common.event.EventListener;
@@ -148,8 +148,7 @@ public class BgMeasure extends Fragment implements EventListener {
      */
     @Override
     public void onEventMainThread(Message event) {
-        if (event.what == EventMessage.BLE_DATA &&
-                BluetoothConstant.DEVICE_TYPE_BLOOD_GLUCOSE == event.arg1) {
+        if (event.what == BleMessage.BG_DATA) {
             String val  = (String) event.obj;
             Date time = new Date();
 

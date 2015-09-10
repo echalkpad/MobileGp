@@ -17,8 +17,8 @@ import android.widget.TextView;
 import com.totoro.commons.adapter.BaseViewHolder;
 import com.totoro.commons.utils.DateUtil;
 import com.totoro.commons.utils.ResourceUtil;
+import com.yuwell.bluetooth.constants.BleMessage;
 import com.yuwell.mobilegp.R;
-import com.yuwell.mobilegp.bluetooth.BluetoothConstant;
 import com.yuwell.mobilegp.common.Const;
 import com.yuwell.mobilegp.common.GlobalContext;
 import com.yuwell.mobilegp.common.event.EventListener;
@@ -151,8 +151,7 @@ public class BpMeasure extends Fragment implements EventListener {
      * @param event
      */
     public void onEventMainThread(Message event) {
-        if (event.what == EventMessage.BLE_DATA &&
-                BluetoothConstant.DEVICE_TYPE_BLOOD_PRESSURE == event.arg1) {
+        if (event.what == BleMessage.BP_DATA) {
             int[] array = (int[]) event.obj;
             mSbp.setText(String.valueOf(array[0]));
             mDbp.setText(String.valueOf(array[1]));

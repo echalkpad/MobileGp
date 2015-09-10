@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.yuwell.mobilegp"
-        minSdkVersion 16
+        minSdkVersion 18
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
@@ -30,4 +30,5 @@ dependencies {
     compile('in.srain.cube:cube-sdk:1.0.44@aar') {
         exclude group: 'in.srain.cube', module: 'clog'
     }
+    compile project(':bluetooth')
 }

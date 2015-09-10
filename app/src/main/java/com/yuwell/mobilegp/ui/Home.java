@@ -19,9 +19,10 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import com.yuwell.bluetooth.core.BleService;
+import com.yuwell.bluetooth.device.BPM;
+import com.yuwell.bluetooth.device.Glucometer;
 import com.yuwell.mobilegp.R;
-import com.yuwell.mobilegp.bluetooth.BluetoothConstant;
-import com.yuwell.mobilegp.bluetooth.BluetoothLeService;
 import com.yuwell.mobilegp.common.GlobalContext;
 import com.yuwell.mobilegp.common.event.EventMessage;
 import com.yuwell.mobilegp.common.utils.DateUtil;
@@ -55,7 +56,7 @@ public class Home extends AppCompatActivity {
     private TextView mIdNumber;
     private CircleImageView mImage;
 
-    private BluetoothLeService mBluetoothLeService;
+    private BleService.LocalBinder mBluetoothLeService;
 
     private Person person;
 
@@ -73,7 +74,9 @@ public class Home extends AppCompatActivity {
         super.onResume();
         // 从后台重新切换回当前Activity
         if (mBluetoothLeService != null) {
-            mBluetoothLeService.connect();
+            if (BluetoothProfile.STATE_DISCONNECTED == mBluetoothLeService.getConnectionState()) {
+                mBluetoothLeService.scanBleDevice();
+            }
         }
     }
 
@@ -82,7 +85,6 @@ public class Home extends AppCompatActivity {
         super.onDestroy();
 
         if (mBluetoothLeService != null) {
-            mBluetoothLeService.disconnectSecondaryDevice();
             unbindService(mServiceConnection);
             mBluetoothLeService = null;
         }
@@ -132,10 +134,10 @@ public class Home extends AppCompatActivity {
                 if (mBluetoothLeService != null) {
                     if (currentTab == 0 && i == 1) {
 //                        setConnectionUI(BluetoothProfile.STATE_DISCONNECTED);
-                        mBluetoothLeService.resetDeviceType(BluetoothConstant.DEVICE_TYPE_BLOOD_GLUCOSE);
+                        mBluetoothLeService.setDevice(new Glucometer());
                     }
                     if (currentTab == 1 && i == 0) {
-                        mBluetoothLeService.resetDeviceType(BluetoothConstant.DEVICE_TYPE_BLOOD_PRESSURE);
+                        mBluetoothLeService.setDevice(new BPM());
                     }
                 }
                 currentTab = i;
@@ -177,8 +179,7 @@ public class Home extends AppCompatActivity {
     }
 
     private void startBleService() {
-        Intent startService = new Intent(this, BluetoothLeService.class);
-        startService.putExtra(BluetoothLeService.INTENT_TYPE, BluetoothConstant.DEVICE_TYPE_BLOOD_PRESSURE);
+        Intent startService = new Intent(this, BleService.class);
         bindService(startService, mServiceConnection, BIND_AUTO_CREATE);
     }
 
@@ -202,12 +203,13 @@ public class Home extends AppCompatActivity {
 
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder service) {
-            mBluetoothLeService = ((BluetoothLeService.LocalBinder) service).getService();
+            mBluetoothLeService = (BleService.LocalBinder) service;
+            mBluetoothLeService.setDevice(new BPM());
             // Activity创建时判断当前蓝牙服务连接状态
             // 若断开则重新扫描，否则直接更新界面
             int state = mBluetoothLeService.getConnectionState();
             if (state == BluetoothProfile.STATE_DISCONNECTED) {
-                mBluetoothLeService.scanDevice();
+                mBluetoothLeService.scanBleDevice();
             }
         }
 
