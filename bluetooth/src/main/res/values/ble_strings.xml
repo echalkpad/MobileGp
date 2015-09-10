@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Bluetooth</string>
+
+    <string name="ble_state_0">未连接</string>
+    <string name="ble_state_1">连接中</string>
+    <string name="ble_state_2">已连接</string>
+</resources>
