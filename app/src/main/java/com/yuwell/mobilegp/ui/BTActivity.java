@@ -125,6 +125,9 @@ public abstract class BTActivity extends Activity
             case EventMessage.CONNECTION_FAILED:
                 onDeviceConnectionFailed();
                 break;
+            case EventMessage.CONNECTION_LOST:
+                onDeviceDisconnected();
+                break;
         }
     }
 
