@@ -15,4 +15,6 @@ public interface BleMessage {
     int ICP_DATA = 0x1003;
 
     int BATTERY = 0x1004;
+
+    int OXI_DATA = 0x1005;
 }

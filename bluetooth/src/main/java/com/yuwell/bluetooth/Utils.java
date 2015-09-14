@@ -18,6 +18,39 @@ public class Utils {
         return retainOneDecimal(b1.multiply(b2).toString());
     }
 
+    public static String bytesToHexString(byte[] data) {
+        StringBuilder stringBuilder = new StringBuilder();
+        if (data == null || data.length <= 0) {
+            return null;
+        }
+        for (int i = 0; i < data.length; i++) {
+            int v = data[i] & 0xFF;
+            String hv = Integer.toHexString(v);
+            if (hv.length() < 2) {
+                stringBuilder.append(0);
+            }
+            stringBuilder.append(hv);
+        }
+        return stringBuilder.toString();
+    }
+
+    public static String[] bytesToHexStringArray(byte[] src){
+        if (src == null || src.length <= 0) {
+            return null;
+        }
+        String[] str = new String[src.length];
+
+        for (int i = 0; i < src.length; i++) {
+            int v = src[i] & 0xFF;
+            String hv = Integer.toHexString(v);
+            if (hv.length() < 2) {
+                str[i] = "0";
+            }
+            str[i] = hv;
+        }
+        return str;
+    }
+
     private static String retainOneDecimal(String val) {
         if (val.endsWith(".")) {
             val = val.substring(0, val.length() - 1);

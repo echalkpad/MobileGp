@@ -19,4 +19,6 @@ public interface Characteristic {
     UUID RACP = UUID.fromString("00002A52-0000-1000-8000-00805f9b34fb");
 
     UUID DATE_TIME = UUID.fromString("00002A08-0000-1000-8000-00805f9b34fb");
+
+    UUID OXIMETER = UUID.fromString("0000ffe4-0000-1000-8000-00805f9b34fb");
 }
