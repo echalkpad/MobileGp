@@ -17,7 +17,7 @@
             android:theme="@style/Theme.AppCompat.Dialog"/>
 
         <activity
-            android:name=".ui.ECGActivity"
+            android:name=".ui.IDCardActivity"
             android:launchMode="singleTop"
             android:screenOrientation="sensorLandscape">
             <intent-filter>

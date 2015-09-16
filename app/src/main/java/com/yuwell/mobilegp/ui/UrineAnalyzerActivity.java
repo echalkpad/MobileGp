@@ -8,11 +8,12 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Message;
+import android.view.View;
 import android.widget.TextView;
 
 import com.yuwell.bluetooth.constants.BleMessage;
 import com.yuwell.bluetooth.core.BleService;
-import com.yuwell.bluetooth.device.Oximeter;
+import com.yuwell.bluetooth.device.UrineAnalyzer;
 import com.yuwell.mobilegp.R;
 import com.yuwell.mobilegp.common.event.EventListener;
 
@@ -21,23 +22,34 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by Chen on 2015/9/8.
  */
-public class OximeterActivity extends Activity implements EventListener {
+public class UrineAnalyzerActivity extends Activity implements EventListener {
 
-    private TextView mPulseRate;
-    private TextView mSpo2;
-    private TextView mPi;
+    private TextView mState;
 
     private BleService.LocalBinder mBluetoothLeService;
+    private UrineAnalyzer urineAnalyzer;
+//    private CholesterolMeter cholesterolMeter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
 
-        setContentView(R.layout.oximeter_activity);
-        mPulseRate = (TextView) findViewById(R.id.tv_pulse_rate);
-        mSpo2 = (TextView) findViewById(R.id.tv_spo2);
-        mPi = (TextView) findViewById(R.id.tv_pi);
+        setContentView(R.layout.urine_analyzer_activity);
+        mState = (TextView) findViewById(R.id.tv_state);
+        findViewById(R.id.btn_read).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mBluetoothLeService != null && mBluetoothLeService.getConnectionState() == BluetoothProfile.STATE_CONNECTED
+                        && urineAnalyzer != null) {
+                    urineAnalyzer.readLastData();
+                }
+//                if (mBluetoothLeService != null && mBluetoothLeService.getConnectionState() == BluetoothProfile.STATE_CONNECTED
+//                        && cholesterolMeter != null) {
+//                    cholesterolMeter.readData();
+//                }
+            }
+        });
 
         startBleService();
     }
@@ -78,7 +90,13 @@ public class OximeterActivity extends Activity implements EventListener {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder service) {
             mBluetoothLeService = (BleService.LocalBinder) service;
-            mBluetoothLeService.setDevice(new Oximeter());
+
+            urineAnalyzer = new UrineAnalyzer();
+            mBluetoothLeService.setDevice(urineAnalyzer);
+
+//            cholesterolMeter = new CholesterolMeter();
+//            mBluetoothLeService.setDevice(cholesterolMeter);
+
             // Activity创建时判断当前蓝牙服务连接状态
             // 若断开则重新扫描，否则直接更新界面
             int state = mBluetoothLeService.getConnectionState();
@@ -99,16 +117,13 @@ public class OximeterActivity extends Activity implements EventListener {
             case BleMessage.STATE_CHANGE:
                 switch (event.arg1) {
                     case BluetoothProfile.STATE_CONNECTED:
+                        mState.setText("已连接");
                         break;
                     case BluetoothProfile.STATE_DISCONNECTED:
+                        mState.setText("已断开");
                         break;
                 }
                 break;
-            case BleMessage.OXI_DATA:
-                int[] data = (int[]) event.obj;
-                mPulseRate.setText(String.valueOf(data[0]));
-                mSpo2.setText(String.valueOf(data[1]));
-                mPi.setText(String.valueOf(data[2]));
         }
     }
 }

@@ -32,6 +32,10 @@
     <string name="measure_time">测量时间</string>
     <string name="all">全部</string>
 
+    <string name="blood_oxygen">血氧值</string>
+    <string name="percent">%</string>
+    <string name="perfusion_index">灌注指数</string>
+
     <string name="bg_level_0">偏低</string>
     <string name="bg_level_1">正常</string>
     <string name="bg_level_2">偏高</string>
