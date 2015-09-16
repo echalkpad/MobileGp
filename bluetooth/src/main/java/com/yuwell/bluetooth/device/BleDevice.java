@@ -38,8 +38,6 @@ public abstract class BleDevice extends BluetoothGattCallback {
 
     public abstract void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic);
 
-    public abstract void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status);
-
     /**
      * Enables notification on a give characteristic.
      *  @param characteristic Characteristic to act on.

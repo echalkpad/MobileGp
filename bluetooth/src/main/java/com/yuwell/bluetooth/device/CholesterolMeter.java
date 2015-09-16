@@ -50,11 +50,6 @@ public class CholesterolMeter extends BleDevice {
         decodeData(characteristic);
     }
 
-    @Override
-    public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-
-    }
-
     public void readData() {
         sendCommand("GET");
     }

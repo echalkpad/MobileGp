@@ -44,11 +44,6 @@ public class Oximeter extends BleDevice {
     }
 
     @Override
-    public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-
-    }
-
-    @Override
     public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
         decodeData(characteristic);
     }
