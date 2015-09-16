@@ -21,4 +21,10 @@ public interface Characteristic {
     UUID DATE_TIME = UUID.fromString("00002A08-0000-1000-8000-00805f9b34fb");
 
     UUID OXIMETER = UUID.fromString("0000ffe4-0000-1000-8000-00805f9b34fb");
+
+    UUID URINE_INDICATE = UUID.fromString("00002af0-0000-1000-8000-00805f9b34fb");
+
+    UUID URINE_WRITE = UUID.fromString("00002af1-0000-1000-8000-00805f9b34fb");
+
+    UUID CHOLESTEROL_READ = UUID.fromString("81eb77bd-89b8-4494-8a09-7f83d986ddc7");
 }

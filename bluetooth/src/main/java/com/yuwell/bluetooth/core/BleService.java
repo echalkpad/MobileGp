@@ -275,6 +275,7 @@ public class BleService extends Service {
                 mDevice.setBluetoothDevice(device);
                 boolean isConnectionInitiated = connect(device.getAddress());
                 if (isConnectionInitiated) {
+                    mDevice.setBluetoothGatt(mBluetoothGatt);
                     scanLeDevice(false, false);
                     postConnectionState();
                 }

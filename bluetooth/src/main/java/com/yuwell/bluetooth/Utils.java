@@ -44,7 +44,7 @@ public class Utils {
             int v = src[i] & 0xFF;
             String hv = Integer.toHexString(v);
             if (hv.length() < 2) {
-                str[i] = "0";
+                hv = "0" + hv;
             }
             str[i] = hv;
         }

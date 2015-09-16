@@ -22,8 +22,14 @@ public abstract class BleDevice extends BluetoothGattCallback {
         return bluetoothDevice;
     }
 
+    protected BluetoothGatt mBluetoothGatt;
+
     public void setBluetoothDevice(BluetoothDevice bluetoothDevice) {
         this.bluetoothDevice = bluetoothDevice;
+    }
+
+    public void setBluetoothGatt(BluetoothGatt mBluetoothGatt) {
+        this.mBluetoothGatt = mBluetoothGatt;
     }
 
     public abstract boolean connectable(final BluetoothDevice device, int rssi, byte[] scanRecord);
